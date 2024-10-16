@@ -1,15 +1,14 @@
 <template>
   <q-page>
     
-    
-    <div class="container">
+    <body>
+      <div class="container">
       <div class="header">
         <span>Cadastro de unidade de medida</span>
         <q-btn push color="primary" label="Nova medida" />
       </div>
-    </div>
 
-    <div class="divTable">
+      <div class="divTable">
       <table>
         <thead>
           <tr>
@@ -27,16 +26,23 @@
         </tbody>
       </table>
     </div>
+
     <div class="modal-container">
       <div class="modal">
         <q-form>
           <q-input outlined v-model="text" label="cód ERP" />
-          <q-input outlined v-model="text" label="Sigla*" />
-          <q-input outlined v-model="text" label="Descricao*" />
+          <q-input outlined v-model="text" label="Sigla*" required/>
+          <q-input outlined v-model="text" label="Descricao*" required/>
           <q-btn push color="primary" label="CADASTRAR" />
         </q-form>
       </div>
     </div>
+
+    </div>
+    </body>
+  
+
+
 
   </q-page>
 </template>
