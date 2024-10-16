@@ -4,7 +4,7 @@
     
     <div class="container">
       <div class="header">
-        <h3>Cadastro de unidade de medida</h3>
+        <span>Cadastro de unidade de medida</span>
         <q-btn push color="primary" label="Nova medida" />
       </div>
     </div>
