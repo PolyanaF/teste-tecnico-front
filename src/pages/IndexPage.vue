@@ -2,12 +2,14 @@
   <q-page>            
     <body>
       <div class="container">
+        <!-- Header da página com o título e botão para abrir o modal de nova medida -->
         <div class="header">
           <span>Cadastro de unidade de medida</span>
+          <!-- Botão para abrir o modal de cadastro de nova medida -->
           <q-btn push color="cyan-10" label="Nova medida" @click="openModal(false)" />
-
         </div>
 
+        <!-- Campo de pesquisa para filtrar itens pela sigla -->
         <q-input
           v-model="search"
           label="Pesquisar por Sigla"
@@ -15,9 +17,11 @@
           class="q-mt-md"
         />
 
+        <!-- Tabela que exibe a lista de unidades de medida -->
         <div class="divTable">
           <table>
             <thead>
+              <!-- Cabeçalho da tabela com os títulos das colunas -->
               <tr>
                 <th>ID</th>
                 <th>Código ERP</th>
@@ -27,7 +31,9 @@
               </tr>
             </thead>
             <tbody>
+              <!-- Loop que percorre os itens filtrados para exibi-los na tabela -->
               <tr v-for="(item, index) in filteredItens" :key="index" @click="openModal(true, index)">
+                <!-- Colunas da tabela, exibindo os dados de cada item -->
                 <td>{{ item.id }}</td>
                 <td>{{ item.codigoERP }}</td>
                 <td>{{ item.sigla }}</td>
@@ -38,10 +44,13 @@
           </table>
         </div>
 
+        <!-- Modal para cadastro/edição de unidades de medida -->
         <q-dialog v-model="modalVisible">
           <q-card>
             <q-card-section>
-              <q-form @submit.prevent="saveItem"> <!-- Prevent default form submission -->
+              <!-- Formulário para cadastrar ou editar uma unidade de medida -->
+              <q-form @submit.prevent="saveItem">
+                <!-- Campo para o Código ERP, com validação para aceitar apenas valores alfanuméricos -->
                 <q-input
                   v-model="form.codigoERP"
                   label="Código ERP"
@@ -49,9 +58,12 @@
                   maxlength="5"
                   :rules="[(val) => val === '' || /^[a-zA-Z0-9]*$/.test(val) || 'Deve ser alfanumérico']"
                 />
+                <!-- Campo para a Sigla, obrigatório -->
                 <q-input v-model="form.sigla" label="Sigla*" outlined required />
+                <!-- Campo para a Descrição, obrigatório -->
                 <q-input v-model="form.descricao" label="Descrição*" outlined required />
 
+                <!-- Toggle para definir o status como 'Ativo' ou 'Inativo' -->
                 <q-toggle
                   v-if="id !== undefined"
                   v-model="form.status"
@@ -66,6 +78,7 @@
                   {{ form.status === 'Ativo' ? 'Ativo' : 'Inativo' }}
                 </q-toggle>
 
+                <!-- Botões para cadastrar ou cancelar a operação -->
                 <div class="q-mt-md">
                   <q-btn type="submit" push color="primary" label="CADASTRAR" />
                   <q-btn push color="negative" label="Cancelar" @click="closeModal" />
@@ -79,13 +92,17 @@
   </q-page>
 </template>
 
+
 <script>
 import { defineComponent, ref, onMounted, computed } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    // Modal visível ou não
     const modalVisible = ref(false);
+    
+    // Objeto que contém os dados do formulário
     const form = ref({
       id: null,
       codigoERP: '',
@@ -93,18 +110,28 @@ export default defineComponent({
       descricao: '',
       status: 'Ativo',
     });
+    
+    // Lista de itens de unidade de medida
     const itens = ref([]);
+    
+    // Armazena o índice do item que está sendo editado
     const id = ref(undefined);
+    
+    // Campo de pesquisa
     const search = ref('');
 
+    // Gera um ID aleatório para uma nova unidade de medida
     const generateRandomId = () => Math.floor(Math.random() * 1000000);
 
+    // Função para abrir o modal, recebe se é para edição ou não
     const openModal = (edit = false, index = 0) => {
       modalVisible.value = true;
       if (edit) {
+        // Preenche o formulário com os dados do item para edição
         form.value = { ...itens.value[index] };
         id.value = index;
       } else {
+        // Reseta o formulário para cadastrar um novo item
         form.value = {
           id: generateRandomId(),
           codigoERP: '',
@@ -116,12 +143,14 @@ export default defineComponent({
       }
     };
 
+    // Função para fechar o modal
     const closeModal = () => {
       modalVisible.value = false;
     };
 
+    // Função que salva o item após o cadastro/edição
     const saveItem = () => {
-      // Verificar se a sigla já existe
+      // Verifica se a sigla já existe
       const existingItem = itens.value.find(item => item.sigla.toUpperCase() === form.value.sigla.toUpperCase());
       if (existingItem && id.value === undefined) {
         alert('A sigla já existe. Por favor, insira uma sigla diferente.');
@@ -132,28 +161,40 @@ export default defineComponent({
       form.value.sigla = form.value.sigla.toUpperCase();
       form.value.descricao = form.value.descricao.toUpperCase();
 
+      // Se está editando um item, substitui o antigo
       if (id.value !== undefined) {
         itens.value[id.value] = { ...form.value };
       } else {
+        // Se for um novo item, adiciona à lista
         itens.value.push({ ...form.value });
       }
+      
+      // Salva a lista atualizada no localStorage
       setItensBD();
+      
+      // Fecha o modal
       closeModal();
     };
 
+    // Carrega os itens do localStorage
     const loadItens = () => {
       itens.value = getItensBD();
     };
 
+    // Recupera itens do localStorage
     const getItensBD = () => JSON.parse(localStorage.getItem('dbUnidades')) ?? [];
+    
+    // Salva itens no localStorage
     const setItensBD = () => localStorage.setItem('dbUnidades', JSON.stringify(itens.value));
 
+    // Computed para filtrar itens de acordo com a pesquisa
     const filteredItens = computed(() => {
       return itens.value.filter(item => 
         item.sigla.toLowerCase().includes(search.value.toLowerCase())
       );
     });
 
+    // Ao montar o componente, carrega os itens do localStorage
     onMounted(() => {
       loadItens();
     });
@@ -171,6 +212,7 @@ export default defineComponent({
     };
   },
 });
+
 </script>
 
 <style>
