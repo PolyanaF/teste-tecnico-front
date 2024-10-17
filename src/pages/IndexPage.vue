@@ -297,15 +297,6 @@ tbody tr {
 }
   
 
-thead tr th.acao {
-  width: 100px!important;
-  text-align: center
-}
-  
-
-tbody tr td.acao {
-  text-align: center
-}
 
 @media (max-width: 700px) {
   body{
@@ -321,21 +312,6 @@ tbody tr td.acao {
   #new {
     padding: 5px;
     font-size: 10px
-  }
-    
-
-  thead tr th.acao {
-    width: auto!important
-  }
-   
-  
-  td button i {
-    font-size: 20px!important
-  }
-   
-
-  td button i:first-child {
-    margin-right: 0
   }
     
 
@@ -424,26 +400,7 @@ tbody tr td.acao {
     transform: translate3d(0, 0, 0)
   }
     
-}
-
-td button {
-  border: none;
-  outline: none;
-  background: transparent
-}
-
-
-td button i {
-  font-size: 25px
-}
-  
-
-td button i:first-child {
-  margin-right: 10px
-}
-  
-
-  
+} 
 
 </style>
 
