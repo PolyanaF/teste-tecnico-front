@@ -5,7 +5,7 @@
 
         <q-toggle @click="viewModo"
           v-model="view"
-          :label="view === 'Dark' ? 'Dark' : 'Light'"
+          :label= "view === 'Dark' ? 'Dark' : 'Light' "
           :checked-icon="view === 'Dark' ? 'dark_mode' : 'brightness_5'"
           :unchecked-icon="view === 'Light' ? 'brightness_5' : 'dark_mode'"
           :color="view === 'Dark' ? 'indigo-9' : 'orange'"
