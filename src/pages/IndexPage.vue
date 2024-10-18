@@ -21,7 +21,7 @@
         <div class="header">
           <span>Cadastro de unidade de medida</span>
           <!-- Botão para abrir o modal de cadastro de nova medida -->
-          <q-btn push color='indigo-9' label="Nova medida" @click="openModal(false)"/>
+          <q-btn push color='indigo-9' label="Nova medida" @click="openModal(false)" id="btn-nova-medida"/>
         </div>
 
         <!-- Campo de pesquisa para filtrar itens pela sigla -->
