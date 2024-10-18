@@ -5,13 +5,15 @@
 
         <q-toggle @click="viewModo"
           v-model="view"
-          :label= "view === 'Dark' ? 'Dark' : 'Light' "
+          label= " "
           :checked-icon="view === 'Dark' ? 'dark_mode' : 'brightness_5'"
           :unchecked-icon="view === 'Light' ? 'brightness_5' : 'dark_mode'"
           :color="view === 'Dark' ? 'indigo-9' : 'orange'"
           :true-value="'Dark'"
           :false-value="'Light'"
-          class="q-mt-md">
+          class="q-mt-md modoView">
+
+          {{ view === 'Dark' ? 'Dark' : 'Light' }}
         </q-toggle>
 
 
@@ -118,22 +120,25 @@ export default defineComponent({
     // Modal visível ou não
     const modalVisible = ref(false);
 
+    // View modo Light ou Dark
     const view = ref('Light');
 
+
+    // Funcao para troca de classes e modificar seu estilo (css)
     function viewModo () {
       if(view.value === 'Light'){
-      const containerLight = document.querySelector('div .dark-container')
-      const bodyLight = document.querySelector('body')
-      bodyLight.className = null
-      console.log('LIGHT CONTAINER')
-      containerLight.className = 'container'
-    } else {
-      const containerDark = document.querySelector('div .container')
-      const bodyDark = document.querySelector('body')
-      bodyDark.className = 'modoDark'
-      console.log('DARK CONTAINER')
-      containerDark.className = 'dark-container'
-    }
+        const containerLight = document.querySelector('div .dark-container')
+        const bodyLight = document.querySelector('body')
+        bodyLight.className = null
+        console.log('LIGHT CONTAINER')
+        containerLight.className = 'container'
+      } else {
+        const containerDark = document.querySelector('div .container')
+        const bodyDark = document.querySelector('body')
+        bodyDark.className = 'modoDark'
+        console.log('DARK CONTAINER')
+        containerDark.className = 'dark-container'
+      }
     }
 
     
@@ -284,6 +289,11 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0.1)
 }
 
+.modoView {
+  color: rgb(105, 105, 105);
+}
+
+
 .modoDark {
   width: 100vw;
   height: 100vh;
@@ -294,15 +304,11 @@ export default defineComponent({
 }
 
 
-button{
-  cursor: pointer
-}
-
 .dark-container {
   width: 90%;
   height: 80%;
   border-radius: 10px;
-  background-color: rgba(20, 19, 19, 0.87);  
+  background-color: rgba(20, 19, 19, 0.87);
 }
 
 .dark-container span{
@@ -415,10 +421,11 @@ tbody tr {
   body{
     font-size: 10px
   }
-    
-  
+
+
   .header span {
-    font-size: 15px
+    font-size: 14px;
+    display: inline-block;
   }
     
 
@@ -445,7 +452,7 @@ tbody tr {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(78, 78, 78, 0.5);
   display: none;
   z-index: 999;
   align-items: center;
