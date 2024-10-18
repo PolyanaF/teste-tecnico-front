@@ -1,12 +1,25 @@
 <template>
   <q-page>            
-    <body>
+    <body class="modo">
       <div class="container">
+
+        <q-toggle @click="viewModo"
+          v-model="view"
+          :label="view === 'Dark' ? 'Dark' : 'Light'"
+          :checked-icon="view === 'Dark' ? 'dark_mode' : 'brightness_5'"
+          :unchecked-icon="view === 'Light' ? 'brightness_5' : 'dark_mode'"
+          :color="view === 'Dark' ? 'indigo-9' : 'orange'"
+          :true-value="'Dark'"
+          :false-value="'Light'"
+          class="q-mt-md">
+        </q-toggle>
+
+
         <!-- Header da página com o título e botão para abrir o modal de nova medida -->
         <div class="header">
           <span>Cadastro de unidade de medida</span>
           <!-- Botão para abrir o modal de cadastro de nova medida -->
-          <q-btn push color="cyan-10" label="Nova medida" @click="openModal(false)" />
+          <q-btn push color='indigo-9' label="Nova medida" @click="openModal(false)"/>
         </div>
 
         <!-- Campo de pesquisa para filtrar itens pela sigla -->
@@ -14,6 +27,7 @@
           v-model="search"
           label="Pesquisar por Sigla"
           outlined
+          bg-color="grey-3"
           class="q-mt-md"
         />
 
@@ -75,7 +89,7 @@
                   :false-value="'Inativo'"
                   class="q-mt-md"
                 >
-                  {{ form.status === 'Ativo' ? 'Ativo' : 'Inativo' }}
+                  {{ form.status === 'Ativo' ? 'Dark' : 'Inativo' }}
                 </q-toggle>
 
                 <!-- Botões para cadastrar ou cancelar a operação -->
@@ -94,13 +108,37 @@
 
 
 <script>
+
 import { defineComponent, ref, onMounted, computed } from 'vue';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
+    
     // Modal visível ou não
     const modalVisible = ref(false);
+
+    const view = ref('Light');
+
+    function viewModo () {
+      if(view.value === 'Light'){
+      const containerLight = document.querySelector('div .dark-container')
+      const bodyLight = document.querySelector('body')
+      bodyLight.className = null
+      console.log('LIGHT CONTAINER')
+      containerLight.className = 'container'
+    } else {
+      const containerDark = document.querySelector('div .container')
+      const bodyDark = document.querySelector('body')
+      bodyDark.className = 'modoDark'
+      console.log('DARK CONTAINER')
+      containerDark.className = 'dark-container'
+    }
+    }
+
+    
+
+
     
     // Objeto que contém os dados do formulário
     const form = ref({
@@ -209,6 +247,8 @@ export default defineComponent({
       id,
       search,
       filteredItens,
+      view,
+      viewModo,
     };
   },
 });
@@ -235,7 +275,7 @@ export default defineComponent({
   justify-content: end;
 }
 
-body {
+.modo {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -244,11 +284,42 @@ body {
   background-color: rgba(0, 0, 0, 0.1)
 }
 
+.modoDark {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0, 0, 0);
+}
+
 
 button{
   cursor: pointer
 }
-  
+
+.dark-container {
+  width: 90%;
+  height: 80%;
+  border-radius: 10px;
+  background-color: rgba(20, 19, 19, 0.87);  
+}
+
+.dark-container span{
+  color: rgba(224, 224, 224, 0.87);  
+}
+
+.dark-container td{
+  color: rgba(224, 224, 224, 0.87);  
+}
+
+.dark-container q-input{
+  background-color: rgba(224, 224, 224, 0.87);  
+}
+
+
+
+
 
 .container{
   width: 90%;
@@ -449,6 +520,10 @@ tbody tr {
 <style scoped>
 
 .container {
+  padding: 20px;
+}
+
+.dark-container {
   padding: 20px;
 }
 .header {
