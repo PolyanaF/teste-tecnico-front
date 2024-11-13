@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build"
@@ -19,6 +20,10 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+<<<<<<< HEAD
+=======
+    "@eslint/js": "^9.12.0",
+>>>>>>> 2043faf13acbd3d647b93ed623a70343b4feeca4
     "@quasar/app-vite": "^1.9.0",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.57.0",
@@ -27,8 +32,16 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.0.0",
+<<<<<<< HEAD
     "postcss": "^8.4.14",
     "vite-plugin-checker": "^0.8.0"
+=======
+    "globals": "^15.11.0",
+    "postcss": "^8.4.14",
+    "vite-plugin-checker": "^0.8.0",
+    "eslint-config-prettier": "^8.1.0",
+    "prettier": "^2.5.1"
+>>>>>>> 2043faf13acbd3d647b93ed623a70343b4feeca4
   },
   "engines": {
     "node": "^20 || ^18 || ^16",
